@@ -17,7 +17,9 @@ def client(msg, log_buffer=sys.stderr):
 
         while True:
             chunk = sock.recv(16)
-            if not chunk:
+            if len(chunk) < 16:
+                received_message += chunk.decode('utf-8')
+                print('received "{0}"'.format(chunk.decode('utf8')), file=log_buffer)
                 break
             received_message += chunk.decode('utf-8')
             print('received "{0}"'.format(chunk.decode('utf8')), file=log_buffer)
@@ -39,4 +41,5 @@ if __name__ == '__main__':
 
     msg = sys.argv[1]
     print("Server says: {}".format(client(msg)))
+
 
